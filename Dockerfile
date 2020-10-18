@@ -17,7 +17,6 @@ RUN set -eux \
                 openssl-dev \
                 python3 \
                 python3-dev
-
 ARG ANSIBLE_VERSION="2.10.1"
 ARG AWSCLI_VERSION="1.18.159"
 ENV AWSCLI_VERSION=${AWSCLI_VERSION}
@@ -35,7 +34,6 @@ FROM hashicorp/packer:${PACKER_VERSION} AS packer
 FROM hashicorp/terraform:${TERRAFORM_VERSION} AS terraform
 
 FROM alpine:3.9 as stage
-
 RUN set -eux \
 	&& apk add --no-cache python3 \
 	&& ln -sf /usr/bin/python3 /usr/bin/python \
@@ -50,15 +48,12 @@ RUN set -eux \
 	&& ln -sf ansible /usr/bin/ansible-vault \
 	&& find /usr/lib/ -name '__pycache__' -print0 | xargs -0 -n1 rm -rf \
 	&& find /usr/lib/ -name '*.pyc' -print0 | xargs -0 -n1 rm -rf
-
 COPY --from=builder /usr/lib/python3.6/site-packages/ /usr/lib/python3.6/site-packages/
 COPY --from=builder /usr/bin/ansible /usr/bin/ansible
 COPY --from=builder /usr/bin/ansible-connection /usr/bin/ansible-connection
 COPY --from=builder /usr/bin/aws /usr/bin/aws
 COPY --from=packer /bin/packer /usr/bin/packer
 COPY --from=terraform /bin/terraform /usr/bin/terraform
-
-
 
 FROM scratch
 ###
@@ -75,9 +70,7 @@ LABEL ansible_version=${ANSIBLE_VERSION}
 LABEL awscli_version=${AWSCLI_VERSION}
 
 #ADD VERSION .
-
 COPY --from=stage / /
-
 WORKDIR /opt
 ENTRYPOINT []
 CMD    ["/bin/bash"]
