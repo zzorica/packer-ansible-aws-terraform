@@ -35,7 +35,7 @@ FROM hashicorp/terraform:${TERRAFORM_VERSION} AS terraform
 
 FROM alpine:3.9 as stage
 RUN set -eux \
-	&& apk add --no-cache python3 bash git \
+	&& apk add --no-cache python3 bash git jq \
 	&& ln -sf /usr/bin/python3 /usr/bin/python \
 	&& ln -sf ansible /usr/bin/ansible-config \
 	&& ln -sf ansible /usr/bin/ansible-console \
