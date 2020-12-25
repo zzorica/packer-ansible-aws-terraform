@@ -3,7 +3,7 @@ Image created for the purpose of CI/CD tools.
 
 For example in circleci pipeline to automatically create packer images provisioned by ansible and then uploaded to aws.
 
-In dockerfile you can specify which version of tools you need
+In dockerfile you can specify which version of the tools you need
 
 ```
 ARG ANSIBLE_VERSION="2.10.1"
